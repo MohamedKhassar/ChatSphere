@@ -20,8 +20,17 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         console.log("user disconnected")
     })
-    socket.on("message", (data) => {
-        console.log(data)
+    socket.on("message", (data, room) => {
+        if (room.length) {
+            data && io.to(room).emit("message", data)
+            console.log("sending " + data + " to room " + room)
+        } else {
+            console.log("please join the room first!")
+        }
+    })
+    socket.on("joinRoom", (data) => {
+        console.log("joining " + data)
+        socket.join(data)
     })
 })
 
