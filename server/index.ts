@@ -20,9 +20,10 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         console.log("user disconnected")
     })
-    socket.on("message", (data, room) => {
+    socket.on("message", async (data, room): Promise<any> => {
         if (room.length) {
             data && io.to(room).emit("message", data)
+            data && await Message.create({ content: data })
             console.log("sending " + data + " to room " + room)
         } else {
             console.log("please join the room first!")
