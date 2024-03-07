@@ -29,9 +29,9 @@ io.on("connection", (socket) => {
             console.log("please join the room first!")
         }
     })
-    socket.on("joinRoom", (data) => {
-        console.log("joining " + data)
-        socket.join(data)
+    socket.on("joinRoom", async (data, user) => {
+
+        user && socket.join(data)
     })
 })
 
