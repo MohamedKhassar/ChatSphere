@@ -2,8 +2,7 @@ import mongoose from "mongoose";
 
 interface Message {
     content: string,
-    sender: string,
-    username: mongoose.ObjectId
+    sender: string
 }
 
 const MessageModel = new mongoose.Schema<Message>({

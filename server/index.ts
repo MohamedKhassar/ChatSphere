@@ -4,7 +4,11 @@ import http from "http"
 import Message from "./Models/MessageModel"
 import "./connection/DB"
 import User from "./Models/UserModel"
+import messageRouter from "./routes/MessageRouter"
+import cors from "cors"
 const app = express()
+app.use(cors())
+app.use("/api", messageRouter)
 
 
 const server = http.createServer(app)
@@ -16,34 +20,27 @@ const io = new Server(server, {
     }
 })
 
+
 io.on("connection", (socket) => {
-    socket.on("connected", async (): Promise<void> => {
-        const { id } = socket
-        const user = await User.findOne({ socket_id: id })
-        socket.emit("connected", user)
-    })
-    socket.on("createUser", async (username) => {
-        const { id } = socket
-        await User.create({ username, socket_id: id })
-        console.log("created")
-    })
+    console.log("user connected")
     socket.on("disconnect", async () => {
         const { id } = socket
         await User.deleteOne({ socket_id: id })
         console.log("user disconnected")
     })
-    socket.on("message", async (data, room): Promise<any> => {
-        if (room.length) {
-            data && io.to(room).emit("message", data)
-            data && await Message.create({ content: data })
-            console.log("sending " + data + " to room " + room)
-        } else {
-            console.log("please join the room first!")
+    socket.on("message", async (data, sender): Promise<any> => {
+        if (data) {
+            await Message.create({ content: data, sender })
+            const messages = await Message.find()
+            io.emit("message", messages)
+            console.log("sended")
         }
     })
-    socket.on("joinRoom", async (data, user) => {
-        console.log(socket.id)
-        user && socket.join(data)
+    socket.on("joinRoom", async (user) => {
+        const isUser = await User.findOne({ username: user })
+        const newUser = !isUser ? await User.create({ username: user, socket_id: socket.id }) : isUser
+        socket.emit("joinRoom", newUser)
+        console.log("join")
     })
 })
 
