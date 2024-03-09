@@ -12,9 +12,6 @@ const MessageModel = new mongoose.Schema<Message>({
     },
     sender: {
         type: String,
-    },
-    username: {
-        type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }
 })

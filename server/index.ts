@@ -3,6 +3,7 @@ import { Server } from "socket.io"
 import http from "http"
 import Message from "./Models/MessageModel"
 import "./connection/DB"
+import User from "./Models/UserModel"
 const app = express()
 
 
@@ -16,8 +17,19 @@ const io = new Server(server, {
 })
 
 io.on("connection", (socket) => {
-    console.log("a user connected")
-    socket.on("disconnect", () => {
+    socket.on("connected", async (): Promise<void> => {
+        const { id } = socket
+        const user = await User.findOne({ socket_id: id })
+        socket.emit("connected", user)
+    })
+    socket.on("createUser", async (username) => {
+        const { id } = socket
+        await User.create({ username, socket_id: id })
+        console.log("created")
+    })
+    socket.on("disconnect", async () => {
+        const { id } = socket
+        await User.deleteOne({ socket_id: id })
         console.log("user disconnected")
     })
     socket.on("message", async (data, room): Promise<any> => {
@@ -30,7 +42,7 @@ io.on("connection", (socket) => {
         }
     })
     socket.on("joinRoom", async (data, user) => {
-
+        console.log(socket.id)
         user && socket.join(data)
     })
 })

@@ -1,4 +1,5 @@
 "use client"
+import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
@@ -6,6 +7,7 @@ export default function Home() {
   const [user, setUser] = useState<any>(undefined)
   const [inbox, setInbox] = useState<any[]>([])
   const socket = io("http://localhost:3001")
+  const router = useRouter()
 
   useEffect(() => {
     socket.on('message', (msg: string) => {
@@ -24,7 +26,8 @@ export default function Home() {
   // }
   const joinRoom = (e: FormEvent) => {
     e.preventDefault()
-    socket.emit("joinRoom", "room", user)
+    socket.emit("createUser", user)
+    user && router.push("/chat")
   }
   return (
     <div className="bg-[url(/img/bg.jpg)] flex-col gap-y-8 flex justify-center items-center h-screen">
