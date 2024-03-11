@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ChatSphere
 
-## Getting Started
+ChatSphere is a real-time communication platform allowing users to connect to various chat rooms and share messages instantly without the need for prior authentication. It is designed to be a dynamic and user-friendly platform facilitating smooth interaction among its users. Utilizing WebSocket for real-time communication, React for a reactive user interface, and Node.js with Express for server-side logic, you will build an application that prioritizes speed, ease of use, and accessibility.
 
-First, run the development server:
+## Technologies and Tools:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- WebSocket (socket.io) for enabling real-time communication between clients and the server.
+- React for building the client-side user interface.
+- Node.js and Express for setting up the server handling WebSocket(socket.io) connections.
+- Tailwind for styling the application to ensure an attractive and responsive user experience.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Development of the Application:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Initialization:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Set up client and server projects, including the installation of all necessary dependencies.
 
-## Learn More
+### Development of the Application:
 
-To learn more about Next.js, take a look at the following resources:
+- **Home Page (/)**: Introduce ChatSphere to users with a brief overview. Includes a button to directly join the chat room if the user wishes to skip customizing their nickname.
+- **Nickname Selection Page (/join)**: Allows users to choose a unique nickname before joining the chat room. This adds a level of anonymity and personalization.
+- **Chat Room (/chat)**: The main space where users can see real-time messages, send messages, and interact with other participants.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Database Design:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Users:
 
-## Deploy on Vercel
+- **Nickname**: Unique string for each user.
+- **ID**: Unique identifier for each user session.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Messages:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **ID**: Unique identifier for each message.
+- **Content**: Text of the message.
+- **Author**: Nickname of the user who sent the message.
+- **Timestamp**: Timestamp of when the message was sent.
+
+## Reusable UI Components:
+
+Develop components for repetitive UI elements such as form fields, buttons, and note cards. Using TypeScript for these components will ensure their robustness and facilitate maintenance.
+
+## Objective of this Brief:
+
+- Utilize WebSocket (Socket.io) for real-time application development.
+- Use React and Tailwind for modern and responsive user interface development.
+- Employ Node.js and Express for creating a robust server.
+- Implement MongoDB for managing data in NoSQL.
+- Develop reusable UI components and deploy web applications for efficient maintenance and scaling.
+
+## Development of the Application:
+
+### Initialization:
+
+Set up client and server projects, including the installation of all necessary dependencies.
+
+### To install dependencies, run:
+
+`npm install`
+***or***
+`yarn`
+
+### To start the project, run:
+`yarn start:project`
+***or***
+`npm run start:project`
