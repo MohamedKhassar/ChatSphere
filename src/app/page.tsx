@@ -21,7 +21,7 @@ export default function Home() {
   }
   return (
     <div className="bg-[url(/img/bg.jpg)] flex-col gap-y-8 flex justify-center items-center h-screen">
-      {!chat ? <div className="flex-col gap-y-5 w-96 flex justify-center items-center  bg-black/10 backdrop-blur-sm p-6 rounded-md shadow-lg h-96">
+      {chat ? <Chat user={userConnected} /> : <div className="flex-col gap-y-5 w-96 flex justify-center items-center  bg-black/10 backdrop-blur-sm p-6 rounded-md shadow-lg h-96">
         <h2 className="text-5xl font-bold">ChatSphere </h2>
         <form onSubmit={joinRoom} className="grid gap-y-5">
           <div className="grid grid-cols-1 gap-y-3">
@@ -30,8 +30,8 @@ export default function Home() {
           </div>
           <button className="p-2 duration-300 font-semibold capitalize bg-violet-800 hover:bg-violet-900 rounded-md" type="submit">join</button>
         </form>
-      </div> :
-        <Chat user={userConnected} />}
+      </div>
+      }
     </div>
   )
 }
