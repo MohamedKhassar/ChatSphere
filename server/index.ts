@@ -24,23 +24,20 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
     console.log("user connected")
     socket.on("disconnect", async () => {
-        const { id } = socket
-        await User.deleteOne({ socket_id: id })
         console.log("user disconnected")
     })
     socket.on("message", async (data, sender): Promise<any> => {
+        console.log(data, sender);
         if (data) {
             await Message.create({ content: data, sender })
             const messages = await Message.find()
             io.emit("message", messages)
-            console.log("sended")
         }
     })
     socket.on("joinRoom", async (user) => {
         const isUser = await User.findOne({ username: user })
         const newUser = !isUser ? await User.create({ username: user, socket_id: socket.id }) : isUser
         socket.emit("joinRoom", newUser)
-        console.log("join")
     })
 })
 
