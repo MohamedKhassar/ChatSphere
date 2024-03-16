@@ -26,11 +26,11 @@ io.on("connection", (socket) => {
     socket.on("disconnect", async () => {
         console.log("user disconnected")
     })
-    socket.on("message", async (data, sender): Promise<any> => {
+    socket.on("message", async (data, sender): Promise<void> => {
         console.log(data, sender);
         if (data) {
-            await Message.create({ content: data, sender })
-            const messages = await Message.find()
+            const msg = await Message.create({ content: data, sender })
+            const messages = await Message.findById(msg._id).populate("sender")
             io.emit("message", messages)
         }
     })
